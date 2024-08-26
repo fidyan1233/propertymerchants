@@ -791,6 +791,8 @@
 		</div>
 	</div>
 
+
+
 	<script>
         function submitContact() {
             var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
@@ -826,131 +828,6 @@
                             $('#inputEmail').val('');
                             $('#inputNumber').val('');
                             window.location.href = 'https://propertymerchants.vercel.app/thank-you.html';
-                        } else {
-                            alert("error");
-                            $('.statusMsg').html('<span style="color:red;">Some problem occurred, please try again.</span>');
-                        }
-                        $('.submitBtn').removeAttr("disabled");
-                        $('.modal-body').css('opacity', '');
-                        $('#inputName').reset();
-                        $('#inputEmail').reset();
-                        $('#inputNumber').reset();
-                    }
-                });
-            }
-        }
-        function submitContactForm() {
-            var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-            var rege = /^\+?[0-9\s-]{7,15}$/;
-            var name = $('#name').val();
-            var email = $('#email').val();
-            var phone = $('#phone').val();
-            var req = $('#req').val();
-            var captcha = $('#g-recaptcha-response').val();
-            var agreecontact = $('#agreecontact').is(':checked');
-
-            if (name == '') {
-                alert('Please enter your name.');
-                $('#name').focus();
-                return false;
-            } else if (email == '') {
-                alert('Please enter your email.');
-                $('#email').focus();
-                return false;
-            } else if (!reg.test(email)) {
-                alert('Please enter a valid email address.');
-                $('#email').focus();
-                return false;
-            } else if (phone == '') {
-                alert('Please enter your number.');
-                $('#phone').focus();
-                return false;
-            } else if (phone != '' && !rege.test(phone)) {
-                alert('Please enter a valid number.');
-                $('#phone').focus();
-                return false;
-            } else if (req == '') {
-                alert('Please enter your requirements.');
-                $('#req').focus();
-                return false;
-            } else if (!agreecontact) {
-                alert('Please submitting, you agree to be contacted by our team.');
-                $('#agreecontact').focus();
-                return false;
-            } else if (captcha == '') {
-                alert('Please check captcha.');
-                return false;
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    url: 'contact.php',
-                    data: 'contactFrmSubmit=1&name=' + name + '&email=' + email + '&phone=' + phone + '&req=' + req + '&agreecontact=' + agreecontact + '&captcha=' + captcha,
-                    beforeSend: function () {
-                        $('.submitBtn').attr("disabled", "disabled");
-                    },
-                    success: function (msg) {
-                        if (msg == 'ok') {
-                            $('#name').val('');
-                            $('#email').val('');
-                            $('#phone').val('');
-                            $('#req').val('');
-                            $('#agreecontact').prop('checked', false);
-                            window.location.href = 'thank-you.html';
-                        } else if (msg == 400) {
-                            alert('Please check a valid captcha.');
-                            return false;
-                        } else {
-                            alert('A problem occurred, please try again.');
-                            return false;
-                        }
-                        $('.submitBtn').removeAttr("disabled");
-                        $('#name').reset();
-                        $('#email').reset();
-                        $('#phone').reset();
-                        $('#req').reset();
-                    }
-                });
-            }
-        }
-
-
-    </script>
-
-	<script>
-        function submitContact() {
-            var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-            var rege = /^\+?[0-9\s-]{7,15}$/;
-            var name = $('#inputName').val();
-            var email = $('#inputEmail').val();
-            var number = $('#inputNumber').val();
-
-            if (name.trim() == '') {
-                alert('Please enter your name.');
-                $('#inputName').focus();
-                return false;
-            } else if (number.trim() == '') {
-                alert('Please enter your number.');
-                $('#inputNumber').focus();
-                return false;
-            } else if (number.trim() != '' && !rege.test(number)) {
-                alert('Please enter valid number.');
-                $('#inputNumber').focus();
-                return false;
-            } else {
-                $.ajax({
-                    type: 'post',
-                    url: 'modal.php',
-                    data: 'contactFrmSubmit=1&name=' + name + '&number=' + number + '&email=' + email,
-                    beforeSend: function () {
-                        $('.submitBtn').attr("disabled", "disabled");
-                        $('.modal-body').css('opacity', '.5');
-                    },
-                    success: function (msg) {
-                        if (msg == 'ok') {
-                            $('#inputName').val('');
-                            $('#inputEmail').val('');
-                            $('#inputNumber').val('');
-                            window.location.href = 'https://propertymerchants.in/thank-you.html';
                         } else {
                             alert("error");
                             $('.statusMsg').html('<span style="color:red;">Some problem occurred, please try again.</span>');
