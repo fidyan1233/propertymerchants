@@ -1,0 +1,17 @@
+RewriteEngine on
+
+<!-- redirect to non www version -->
+RewriteCond %{HTTP_HOST} ^www\.(propertymerchants\.vercel.app) [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+<!-- remove .html extension -->
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
+
+<!-- 404 error page -->
+ErrorDocument 404 /404.html
+
+
+
