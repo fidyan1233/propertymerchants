@@ -22,6 +22,18 @@
 	<link href="css/animate.css" rel="stylesheet">
 	<link href="css/magnific-popup.css" rel="stylesheet">
 	<link href="css/custom.css" rel="stylesheet" media="screen">
+	<script>
+        var onloadCallback = function () {
+            grecaptcha.render('example1', {
+                'sitekey': '6LcPdC8qAAAAABMObqV7cb3y5SaQzgLM2lmZCuyD',
+            });
+            grecaptcha.render('example2', {
+                'sitekey': '6LcPdC8qAAAAABMObqV7cb3y5SaQzgLM2lmZCuyD',
+            });
+        };
+    </script>
+	 
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 </head>
 
 <body class="tt-magic-cursor">
@@ -47,7 +59,7 @@
 			<nav class="navbar navbar-expand-lg">
 				<div class="container">
 					<!-- Logo Start -->
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="https://propertymerchants.in/">
 						<img src="images/logo.svg" alt="Logo">
 					</a>
 					<!-- Logo End -->
@@ -55,7 +67,7 @@
 					<!-- Main Menu start -->
 					<div class="collapse navbar-collapse main-menu">
 						<ul class="navbar-nav mr-auto" id="menu">
-							<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="https://propertymerchants.in/">Home</a></li>
 							<li class="nav-item submenu"><a class="nav-link" href="#">Properties For Sale</a>
 								<ul>
 									<li class="nav-item"><a class="nav-link" href="dombivli-property.html">Dombivali</a></li>
@@ -189,7 +201,7 @@
 				<div class="col-lg-8 offset-lg-2">
 					<!-- Contact Form start -->
 					<div class="contact-form wow fadeInUp" data-wow-delay="0.75s">
-						<form id="contactForm" action="#" method="POST" data-toggle="validator">
+						<form id="contactForm" action="contact.php" method="post" data-toggle="validator">
 							<div class="row">
 								<div class="form-group col-md-6 mb-4">
 									<input type="text" name="name" class="form-control" id="name" placeholder="Name"
@@ -220,9 +232,12 @@
 										placeholder="Write a Message" required></textarea>
 									<div class="help-block with-errors"></div>
 								</div>
+								<div class="form-group col-12 mb-4">
+									<div id="example1"></div>
+								</div>
 
 								<div class="col-md-12 text-center">
-									<button type="submit" class="btn-default">Submit Now</button>
+									<button type="submit" onclick="submitContactForm()" class="btn-default">Submit Now</button>
 									<div id="msgSubmit" class="h3 text-left hidden"></div>
 								</div>
 							</div>
@@ -266,7 +281,7 @@
 						<div class="footer-about text-center">
 							<!-- Footer Logo Start -->
 							<div class="footer-logo">
-								<a href="index.html">
+								<a href="https://propertymerchants.in/">
 									<img src="images/logo.svg" alt="">
 								</a>
 							</div>
@@ -428,9 +443,10 @@
             var name = $('#name').val();
             var email = $('#email').val();
             var phone = $('#phone').val();
-            var req = $('#req').val();
+			var subject = $('#subject').val();
+            var msg = $('#msg').val();
             var captcha = $('#g-recaptcha-response').val();
-            var agreecontact = $('#agreecontact').is(':checked');
+            
 
             if (name == '') {
                 alert('Please enter your name.');
@@ -452,22 +468,14 @@
                 alert('Please enter a valid number.');
                 $('#phone').focus();
                 return false;
-            } else if (req == '') {
-                alert('Please enter your requirements.');
-                $('#req').focus();
-                return false;
-            } else if (!agreecontact) {
-                alert('Please submitting, you agree to be contacted by our team.');
-                $('#agreecontact').focus();
-                return false;
-            } else if (captcha == '') {
+            }  else if (captcha == '') {
                 alert('Please check captcha.');
                 return false;
             } else {
                 $.ajax({
                     type: 'POST',
                     url: 'contact.php',
-                    data: 'contactFrmSubmit=1&name=' + name + '&email=' + email + '&phone=' + phone + '&req=' + req + '&agreecontact=' + agreecontact + '&captcha=' + captcha,
+                    data: 'contactFrmSubmit=1&name=' + name + '&email=' + email + '&phone=' + phone + '&msg=' + msg + '&subject=' + subject + '&captcha=' + captcha,
                     beforeSend: function () {
                         $('.submitBtn').attr("disabled", "disabled");
                     },
@@ -476,8 +484,8 @@
                             $('#name').val('');
                             $('#email').val('');
                             $('#phone').val('');
-                            $('#req').val('');
-                            $('#agreecontact').prop('checked', false);
+                            $('#msg').val('');
+                            $('#subject').val('');
                             window.location.href = 'thank-you.html';
                         } else if (msg == 400) {
                             alert('Please check a valid captcha.');
@@ -490,7 +498,8 @@
                         $('#name').reset();
                         $('#email').reset();
                         $('#phone').reset();
-                        $('#req').reset();
+                        $('#msg').reset();
+						$('#subject').reset();
                     }
                 });
             }

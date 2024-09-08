@@ -47,7 +47,7 @@
 			<nav class="navbar navbar-expand-lg">
 				<div class="container">
 					<!-- Logo Start -->
-					<a class="navbar-brand" href="index.html">
+					<a class="navbar-brand" href="https://propertymerchants.in/">
 						<img src="images/logo.svg" alt="Logo">
 					</a>
 					<!-- Logo End -->
@@ -55,7 +55,7 @@
 					<!-- Main Menu start -->
 					<div class="collapse navbar-collapse main-menu">
 						<ul class="navbar-nav mr-auto" id="menu">
-							<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="https://propertymerchants.in/">Home</a></li>
 							<li class="nav-item submenu"><a class="nav-link" href="#">Properties For Sale</a>
 								<ul>
 									<li class="nav-item"><a class="nav-link" href="dombivli-property.html">Dombivali</a></li>
@@ -378,18 +378,11 @@
 
                             <div class="property-amenities-box">
                                 <ul>
-                                    <li>Bank - 5 min</li>
-                                    <li>G Corp Tech Park - 5 min</li>
-                                    <li>MBC Park - 5 min</li>
-                                    <li>Oscar Multispeciality Hospital - 2 min</li>
-                                    <li>Tieten Hospital - 2 min</li>
-                                    <li>Kasarvadavali Metro Station - 2 min</li>
-                                    <li>Gowniwada Metro Station - 2 min</li>
-                                    <li>Big Bazaar - 5 min</li>
-                                    <li>D-mart - 6 min</li>
-                                    <li>Holy Family High School - 3 min</li>
-                                    <li>DG International School - 5 min</li>
-                                    <li>Euro School - 7 min</li>
+                                    <li>Railway Station - 4.6 Km</li>
+                                    <li>Metro Station - 1 km</li>
+                                    <li>School - 1 Km</li>
+                                    <li>Hospital - 0.2 Km</li>
+                                    <li>Mall - 1KM</li>
                                 </ul>
                             </div>
                         </div>
@@ -577,7 +570,7 @@
                         <div class="footer-about text-center">
                             <!-- Footer Logo Start -->
                             <div class="footer-logo">
-                                <a href="index.html">
+                                <a href="https://propertymerchants.in/">
                                     <img src="images/logo.svg" alt="">
                                 </a>
                             </div>
@@ -664,14 +657,14 @@
 								<div class="form-input">
 									<img src="images/modal-icon/email.png" class="modal-icons" alt="">
 									<input type="email" name="email" id="inputEmail" placeholder="Enter Your Email"
-										pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
+										required>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-input">
 									<img src="images/modal-icon/phone.png" class="modal-icons" alt="">
 									<input type="tel" class="mb-2" name="number" id="inputNumber"
-										placeholder="Enter Your Number" pattern="[6789][0-9]{11}" required>
+										placeholder="Enter Your Number" required>
 								</div>
 							</div>
 							<div class="col-12">
@@ -684,6 +677,128 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		function submitContact() {
+			var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+			var rege = /^\d{10}$/;
+			var name = $('#inputName').val();
+			var email = $('#inputEmail').val();
+			var number = $('#inputNumber').val();
+
+			if (name.trim() == '') {
+				alert('Please enter your name.');
+				$('#inputName').focus();
+				return false;
+			} else if (number.trim() == '') {
+				alert('Please enter your number.');
+				$('#inputNumber').focus();
+				return false;
+			} else if (number.trim() != '' && !rege.test(number)) {
+				alert('Please enter valid number.');
+				$('#inputNumber').focus();
+				return false;
+			} else {
+				$.ajax({
+					type: 'post',
+					url: 'modal.php',
+					data: 'contactFrmSubmit=1&name=' + name + '&number=' + number + '&email=' + email,
+					beforeSend: function () {
+						$('.submitBtn').attr("disabled", "disabled");
+						$('.modal-body').css('opacity', '.5');
+					},
+					success: function (msg) {
+						if (msg == 'ok') {
+							$('#inputName').val('');
+							$('#inputEmail').val('');
+							$('#inputNumber').val('');
+							window.location.href = 'https://propertymerchants.in/thank-you.html';
+						} else {
+							alert("error");
+							$('.statusMsg').html('<span style="color:red;">Some problem occurred, please try again.</span>');
+						}
+						$('.submitBtn').removeAttr("disabled");
+						$('.modal-body').css('opacity', '');
+						$('#inputName').reset();
+						$('#inputEmail').reset();
+						$('#inputNumber').reset();
+					}
+				});
+			}
+		}
+
+		function submitSideForm() {
+            var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+            var rege = /^\+?[0-9\s-]{7,15}$/;
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var msg = $('#msg').val();
+            var captcha = $('#g-recaptcha-response').val();
+            
+
+            if (name == '') {
+                alert('Please enter your name.');
+                $('#name').focus();
+                return false;
+            } else if (email == '') {
+                alert('Please enter your email.');
+                $('#email').focus();
+                return false;
+            } else if (!reg.test(email)) {
+                alert('Please enter a valid email address.');
+                $('#email').focus();
+                return false;
+            } else if (phone == '') {
+                alert('Please enter your number.');
+                $('#phone').focus();
+                return false;
+            } else if (phone != '' && !rege.test(phone)) {
+                alert('Please enter a valid number.');
+                $('#phone').focus();
+                return false;
+            } else if (msg == '') {
+                alert('Please enter your requirements.');
+                $('#msg').focus();
+                return false;
+            } else if (captcha == '') {
+                alert('Please check captcha.');
+                return false;
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'side-enquiry-form.php',
+                    data: 'contactFrmSubmit=1&name=' + name + '&email=' + email + '&phone=' + phone + '&msg=' + msg + '&captcha=' + captcha,
+                    beforeSend: function () {
+                        $('.submitBtn').attr("disabled", "disabled");
+                    },
+                    success: function (msg) {
+                        if (msg == 'ok') {
+                            $('#name').val('');
+                            $('#email').val('');
+                            $('#phone').val('');
+                            $('#msg').val('');
+    
+                            window.location.href = 'thank-you.html';
+                        } else if (msg == 400) {
+                            alert('Please check a valid captcha.');
+                            return false;
+                        } else {
+                            alert('A problem occurred, please try again.');
+                            return false;
+                        }
+                        $('.submitBtn').removeAttr("disabled");
+                        $('#name').reset();
+                        $('#email').reset();
+                        $('#phone').reset();
+                        $('#msg').reset();
+					
+                    }
+                });
+            }
+        }
+
+	</script>
 
     <script src="js/jquery-3.7.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
